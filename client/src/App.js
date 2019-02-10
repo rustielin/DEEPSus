@@ -7,7 +7,7 @@ import steam from './json/Activities-and-Recreation-Center_Steam_Demand.json';
 import water from './json/Activities-and-Recreation-Center_ChilledWater_Demand.json';
 import wifi from './json/ARC_WiFi_TotalCount.json';
 import predict from './json/prediction.json';
-import real_predict from './json/actual_predictions_100.json'
+import real_predict from './json/actual_predictions_3000.json'
 
 import Card from '@material-ui/core/Card'
 import Grid from '@material-ui/core/Grid'
@@ -108,7 +108,7 @@ class App extends Component {
 
     let arr = [];
     let predict = [];
-    for (let i = 2000; i <= 10080; i += 10) {
+    for (let i = 0; i < 10081; i += 10) {
       arr.push({
         'x' : new Date(real_predict['Points'][i]['x']),
         'y' : real_predict['Points'][i]['y']
@@ -116,10 +116,10 @@ class App extends Component {
     }
 
     console.log(real_predict);
-    for (let i = 10081; i < 10181; i += 10) {
+    for (let i = 10081; i < 13081; i += 10) {
       predict.push({
         'x' : new Date(real_predict['Points'][i]['x']),
-        'y' : real_predict['Points'][i]['y'] / 10
+        'y' : real_predict['Points'][i]['y']
       });
     }
 
@@ -128,7 +128,7 @@ class App extends Component {
     const options = {
         zoomEnabled: true,
         title:{
-          text: "Predicted Water Demand"
+          text: "Actual & Predicted Water Demand"
         },
         axisY : {
           title: "Water Usage",
@@ -172,7 +172,7 @@ class App extends Component {
     // arr = arr.splice(0, half);
     // console.log(real_predict);
     let arr = []
-    for (let i = 2000; i < 10081; i += 15) {
+    for (let i = 0; i < 10081; i += 10) {
       arr.push({
         'x' : new Date(real_predict['Points'][i]['x']),
         'y' : real_predict['Points'][i]['y']
@@ -186,7 +186,7 @@ class App extends Component {
       options: {
         zoomEnabled: true,
         title:{
-          text: "Predicted Water Demand"
+          text: "Actual Water Demand"
         },
         axisY : {
           title: "Water Usage",
@@ -387,13 +387,13 @@ class App extends Component {
             alignItems="center"
             justify="center">
 
-            <Grid item md={6}>
+            <Grid item md={6} style = {{marginTop: "50px"}}>
                 <div>
                   <Typography align="center" component="hq" variant="h2" color="inherit" gutterBottom>
                     DEEPSus
 
                   </Typography>
-                  <Typography align="center" component="hq" variant="h4" color="inherit" gutterBottom>
+                  <Typography align="center" component="hq" variant="h4" color="inherit" style = {{marginTop: "70px"}} gutterBottom>
                     Davis Environmental and Energy Platform for Sustainability
                     
                   </Typography>
@@ -403,7 +403,7 @@ class App extends Component {
                   </Typography>
                 </div>
             </Grid>
-            <Grid item xs = {8} padding = {20}>
+            <Grid item xs = {8} padding = {20} style = {{marginTop: "50px"}}>
               <Card>
                 <CanvasJSChart options = {options} 
                   onRef={ref => this.chart = ref}
@@ -411,7 +411,7 @@ class App extends Component {
               </Card>
             </Grid>
 
-            <Grid item md={6}>
+            <Grid item md={6} style = {{marginTop: "50px"}}>
                 <div>
                   <Typography align="center" component="hq" variant="h3" color="inherit" gutterBottom>
                     Live Data Analysis
@@ -427,7 +427,8 @@ class App extends Component {
           <Grid container
             spacing={40}
             alignItems="center"
-            justify="center">
+            justify="center"
+            style = {{marginTop: "50px"}}>
             <Grid item xs = {12} sm = {6} md = {5} padding = {10}>
               <Card padding = {20}> 
                 <CanvasJSChart options = {options1} 
@@ -476,7 +477,7 @@ class App extends Component {
             alignItems="center"
             justify="center">
 
-            <Grid item md={6}>
+            <Grid item md={6} style = {{marginTop: "100px", marginBottom: "50px"}}>
                 <div>
                   <Typography align="center" component="hq" variant="h3" color="inherit" gutterBottom>
                     Predictive Modeling
@@ -503,7 +504,8 @@ class App extends Component {
           <Grid container
             spacing={40}
             alignItems="center"
-            justify="center">
+            justify="center"
+            >
 
             <Grid item md={6}>
                 <div style = {{marginTop: "50px", marginBottom : "200px"}}>
