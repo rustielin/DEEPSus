@@ -56,7 +56,7 @@ app.get('/api/getHello', (req,res) => {
 });
 
 app.get('/api/getARC', (req,res) => {
-    var ret = 'data/Activities and Recreation Center_' + req.query.type + '_' + req.query.attribute;
+    var ret = 'Activities and Recreation Center_' + req.query.type + '_' + req.query.attribute + '.json';
     stream_helper(ret, res);
 });
 
