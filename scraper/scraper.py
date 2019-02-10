@@ -18,8 +18,8 @@ attributes = ["Demand", "Cumulative Use"]
 query = "af:\\CEFS\\UCDAVIS\\Buildings\\{0}\\{1}|{2}"
 wifi_query = "af:\\REST POSTs to PI\\REST POSTs to PI\\UFL\\UFL\\Wifi Access Points\\ARC|Total_Count"
 # fields = "Items.value;Items.timestamp;Items.unitabbr"
-start = "*-24h"
-query_interval = "10m"
+start = "*-7d"
+query_interval = "1m"
 
 # for b in buildings:
 for t in types:
@@ -31,7 +31,7 @@ for t in types:
             avg = float(df['Value'].max())
             data = {}
 
-            print(avg)
+            # print(avg)
             # pairs = df.to_dict()
             data['Points'] = [{"x" : timestamp, "y" : value} for timestamp, value in zip(df['Timestamp'], df['Value'])]
             data['Normalization'] = avg
@@ -54,7 +54,7 @@ data['Points'] = [{"x" : timestamp, "y" : value} for timestamp, value in zip(wif
 data['Normalization'] = avg
 data['Units'] = unit
 
-print(data)
+# print(data)
 
 with open(path_prefix + "data/ARC_WiFi_TotalCount.json", "w") as f:
     json.dump(data, f)
