@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import CanvasJSReact from './canvasjs/canvasjs.react';
 
@@ -56,21 +55,20 @@ class App extends Component {
 
     //-----------------PROCEED--------------------
 
-
-    // for (let i = 0; i < Object.keys(electricity['Value']).length; i++) {
+    // for (let i = 0; i < Object.keys(electricity['Points']).length; i++) {
     //   dps.push({
-    //     x : new Date(electricity['Timestamp'][i]),
-    //     y: electricity['Value'][i]
+    //     x : new Date(electricity['Points'][i]['x']),
+    //     y: electricity['Points'][i]['y'] / electricity['Normalization']
     //   });
 
     //   dps2.push({
-    //     x: new Date(wifi['Timestamp'][i]),
-    //     y: wifi['Value'][i]
+    //     x : new Date(wifi['Points'][i]['x']),
+    //     y: wifi['Points'][i]['y'] / wifi['Normalization']
     //   });
 
     //   dps3.push({
-    //     x: new Date(wifi['Timestamp'][i]),
-    //     y: water['Value'][i]
+    //     x : new Date(water['Points'][i]['x']),
+    //     y: water['Points'][i]['y'] / water['Normalization']
     //   });
     // }
   }
@@ -84,8 +82,9 @@ class App extends Component {
       },
       theme: "light2",
       axisY : {
-        title: "Electricity Usage (kWH)",
-        includeZero: false
+        title: "Usage Percentage (%)",
+        includeZero: false,
+        minimum: 0
       },
       toolTip: {
         shared: true
@@ -107,9 +106,8 @@ class App extends Component {
         name: "Steam",
         showInLegend: true,
         dataPoints: dps3
-
-
-      }]
+      }
+    ]
   }
   
   return (
