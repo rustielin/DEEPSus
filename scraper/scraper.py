@@ -27,11 +27,13 @@ for t in types:
             df = client.data.get_interpolated_values(query.format(buildings[0], t, a), start_time=start, interval=query_interval)
             unit = df['UnitsAbbreviation'][0]
             df = df[['Value', 'Timestamp']]
-            avg = df['Value'].mean()
+            avg = float(df['Value'].max())
             data = {}
+
+            print(avg)
             # pairs = df.to_dict()
-            data['Points'] = [{"x" : timestamp, "y" : value} for timestamp, value in zip(df['Value'], df['Timestamp'])]
-            data['Average'] = avg
+            data['Points'] = [{"x" : timestamp, "y" : value} for timestamp, value in zip(df['Timestamp'], df['Value'])]
+            data['Normalization'] = avg
             data['Units'] = unit
 
             with open(path_prefix + "data/{0}_{1}_{2}.json".format(buildings[0], t, a), "w") as f:
@@ -44,12 +46,14 @@ for t in types:
 
 wifi_df = client.data.get_interpolated_values(wifi_query, start_time=start, interval=query_interval)
 unit = wifi_df['UnitsAbbreviation'][0]
-wifi_df = df[['Value', 'Timestamp']]
-avg = wifi_df['Value'].mean()
+wifi_df = wifi_df[['Value', 'Timestamp']]
+avg = float(wifi_df['Value'].max())
 data = {}
-data['Points'] = [{"x" : timestamp, "y" : value} for timestamp, value in zip(wifi_df['Value'], wifi_df['Timestamp'])]
-data['Average'] = avg
+data['Points'] = [{"x" : timestamp, "y" : value} for timestamp, value in zip(wifi_df['Timestamp'], wifi_df['Value'])]
+data['Normalization'] = avg
 data['Units'] = unit
+
+print(data)
 
 with open(path_prefix + "data/ARC_WiFi_TotalCount.json", "w") as f:
     json.dump(data, f)
