@@ -477,7 +477,7 @@ class App extends Component {
             alignItems="center"
             justify="center">
 
-            <Grid item md={6} style = {{marginTop: "100px", marginBottom: "50px"}}>
+            <Grid item md={6} style = {{marginTop: "100px"}}>
                 <div>
                   <Typography align="center" component="hq" variant="h3" color="inherit" gutterBottom>
                     Predictive Modeling
@@ -488,9 +488,12 @@ class App extends Component {
                 </div>
 
             </Grid>
-            <Button variant="contained" color="primary" onClick = {this.predict.bind(this)}>
-              Predict
-            </Button> 
+            <Grid align="center" item xs = {8}>  
+              <Button variant="contained" color="primary" onClick = {this.predict.bind(this)}>
+                Predict
+              </Button> 
+            </Grid>
+           
             <Grid item xs = {8} padding = {20}>
               <Card>
                 <CanvasJSChart options = {this.state.options} 
