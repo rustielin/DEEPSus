@@ -49,8 +49,7 @@ unit = wifi_df['UnitsAbbreviation'][0]
 wifi_df = df[['Value', 'Timestamp']]
 avg = wifi_df['Value'].mean()
 data = {}
-pairs = wifi_df.to_dict()
-data['Points'] = pairs
+data['Points'] = [{"x" : timestamp, "y" : value} for timestamp, value in zip(wifi_df['Value'], wifi_df['Timestamp'])]
 data['Average'] = avg
 data['Units'] = unit
 
