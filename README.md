@@ -1,4 +1,6 @@
-# HackDavis2019
+# DEEPSus
+
+Davis Environmental & Energy Platform for Sustainability. [Devpost link here](https://devpost.com/software/deepsus)
 
 ## Overview
 
