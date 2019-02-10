@@ -18,6 +18,9 @@ const bucketName = 'hack-davis-osi-bucket';
 
 var bucket = storage.bucket(bucketName);
 
+const types = ["ChilledWater", "Electricity", "Steam"]
+const attributes = ["MonthlyUsage", "Demand", "Cumulative Use"]
+
 // -------------------EXPRESS----------------
 
 // Serve the static files from the React app
@@ -29,7 +32,7 @@ var stream_helper = (bucket_path, res) => {
     var fileContents = new Buffer('');
     remoteFile.createReadStream()
     .on('error', function(err) {
-        console.log(err);
+        res.json("" + err + "\n" + "Usage: (type) (attribute)\n" + types + "\n" + attributes);
     })
     .on('response', function(response) {
         // Server connected and responded with the specified status and headers.
@@ -42,7 +45,7 @@ var stream_helper = (bucket_path, res) => {
     })
     .on('end', function() {
         // The file is fully downloaded.
-        res.send(fileContents.toString('utf8'));
+        res.json(JSON.parse(fileContents));
         console.log("DOWNLOADED");
     });
 }
