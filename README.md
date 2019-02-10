@@ -1,6 +1,6 @@
 # DEEPSus
 
-Davis Environmental & Energy Platform for Sustainability
+Davis Environmental & Energy Platform for Sustainability. [Devpost link here](https://devpost.com/software/deepsus)
 
 ## Overview
 
