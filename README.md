@@ -17,3 +17,29 @@ In designing our system, we wanted to keep all of our infrastructure on GCP. Thi
   * ExpressJS server for our ReactJS real time graphing front end
   * Learning and data analytics/ML workloads on GCP
   * Data made publicly available
+  
+## Install
+
+A few key components in this repository:
+
+In the root directory, run the following commands to install and start ExpressJS server on port 8080. ExpressJS server fetches data from Google Cloud Storage. This application is hosted on Google Cloud App Engine and load balanced across 3 nodes.
+
+```bash
+npm install; 
+npm start;
+```
+
+In the `client/` directory, run the following commands to install and start ReactJS front end web application on port 3000. ReactJS web app queries ExpressJS application on GCP to get OSIsoft data. See HTTP GET for `/api/getARC`.
+
+```bash
+cd client/;
+npm install; 
+npm start;
+```
+
+In the `scraper/` directory, run the following commands to scrape OSIsoft data into GCS bucket. The scraper is run on GCP Compute Engine. The scraper runs using OSIsoft python client, and needs to be installed separately. See the `scraper/Python` fdirectory for the required install instructions.
+
+```bash
+cd scraper/;
+python3 scraper.py
+```
