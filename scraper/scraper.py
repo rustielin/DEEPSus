@@ -4,7 +4,7 @@ from osisoft.pidevclub.piwebapi.rest import ApiException
 import urllib3
 import json
 
-path_prefix = "~/hack-davis-osi-bucket/"
+path_prefix = ""
 
 urllib3.disable_warnings()
 
@@ -34,9 +34,7 @@ for t in types:
             data['Average'] = avg
             data['Units'] = unit
 
-            print(data)
-
-            with open("data/{0}_{1}_{2}.json".format(buildings[0], t, a), "w") as f:
+            with open(path_prefix + "data/{0}_{1}_{2}.json".format(buildings[0], t, a), "w") as f:
                 json.dump(data, f)
                 print("Saving: {0} {1} {2}".format(buildings[0], t, a))
 
@@ -53,6 +51,6 @@ data['Points'] = [{"x" : timestamp, "y" : value} for timestamp, value in zip(wif
 data['Average'] = avg
 data['Units'] = unit
 
-with open("data/ARC_WiFi_TotalCount.json", "w") as f:
+with open(path_prefix + "data/ARC_WiFi_TotalCount.json", "w") as f:
     json.dump(data, f)
     print("Saving: ARC WiFi TotalCount")
