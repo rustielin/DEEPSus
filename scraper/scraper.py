@@ -19,7 +19,7 @@ query = "af:\\CEFS\\UCDAVIS\\Buildings\\{0}\\{1}|{2}"
 wifi_query = "af:\\REST POSTs to PI\\REST POSTs to PI\\UFL\\UFL\\Wifi Access Points\\ARC|Total_Count"
 # fields = "Items.value;Items.timestamp;Items.unitabbr"
 start = "*-7d"
-query_interval = "1m"
+query_interval = "2m"
 
 # for b in buildings:
 for t in types:
