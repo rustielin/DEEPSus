@@ -124,7 +124,7 @@ class App extends Component {
       animationEnabled: true,
       zoomEnabled: true,
       title:{
-        text: "Usage Over Time"
+        text: "Utility Usage Over the Past Week"
       },
       theme: "light2",
       axisY : {
@@ -264,6 +264,7 @@ class App extends Component {
           <CanvasJSChart style={{"height" : "50%", opacity: 0}} options = {options} 
             onRef={ref => this.chart = ref}
           />
+          <p> The graph above is a normalized display of usage percentage of electricity, steam, chilled water, and Wi-Fi in the Arc Pavilion during the week of February 3, 2018 to February 10, 2018. Click on the legend labels to hide or show an individual utility and zoom/pan in order to see a more granular view of the data. The graphs below plot power consumption (in kilowatts), steam consumption (lbs/hour), chilled water consumption (tons), and total Wi-Fi connections in Arc Pavilion at every 10 minute interval throughout the week of February 3, 2018 to February 10, 2018. These graphs display data in a rolling fashion in order to provide a fine-grained view of hourly fluctuations in utility usage.</p>
           <CanvasJSChart style={{"height" : "50%", opacity: 0}} options = {options1} 
             onRef={ref => this.chart1 = ref}
           />
