@@ -16,46 +16,45 @@ const storage = new Storage({
  
 const bucketName = 'hack-davis-osi-bucket';
 
-storage
-  .createBucket(bucketName)
-  .then(() => {
-    console.log(`Bucket ${bucketName} created.`);
-  })
-  .catch(err => {
-    console.error('ERROR:', err);
-  });
-
 var bucket = storage.bucket(bucketName);
 
 // -------------------EXPRESS----------------
 
-
-
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-// fetch object
-app.get('/api/getHello', (req,res) => {
-
-    var remoteFile = bucket.file('hello.txt');
-
+// helper to stream data
+var stream_helper = (bucket_path, res) => {
+    var remoteFile = bucket.file(bucket_path);
     var fileContents = new Buffer('');
     remoteFile.createReadStream()
-    .on('error', function(err) {})
+    .on('error', function(err) {
+        console.log(err);
+    })
     .on('response', function(response) {
         // Server connected and responded with the specified status and headers.
+        console.log(response);
     })
     .on('data', function(chunk) {
         fileContents = Buffer.concat([fileContents, chunk]);
+        // res.write(chunk);
+        // console.log(chunk);
     })
     .on('end', function() {
         // The file is fully downloaded.
-        res.json(fileContents);
+        res.send(fileContents.toString('utf8'));
+        console.log("DOWNLOADED");
     });
+}
 
-    // var list = ["item1", "item2", "item3"];
-    // res.json(list);
-    // console.log('Sent list of items');
+// fetch object
+app.get('/api/getHello', (req,res) => {
+    stream_helper('hello.txt', res);
+});
+
+app.get('/api/getARC', (req,res) => {
+    var ret = 'data/Activities and Recreation Center_' + req.query.type + '_' + req.query.attribute;
+    stream_helper(ret, res);
 });
 
 // An api endpoint that returns a short list of items
