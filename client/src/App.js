@@ -7,6 +7,7 @@ import steam from './json/Activities-and-Recreation-Center_Steam_Demand.json';
 import water from './json/Activities-and-Recreation-Center_ChilledWater_Demand.json';
 import wifi from './json/ARC_WiFi_TotalCount.json';
 import predict from './json/prediction.json';
+import real_predict from './json/actual_predictions_100.json'
 
 import Card from '@material-ui/core/Card'
 import Grid from '@material-ui/core/Grid'
@@ -16,7 +17,7 @@ import Button from '@material-ui/core/Button'
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 
-const data = [electricity, steam, water, wifi, predict];
+const data = [electricity, steam, water, wifi, predict, real_predict];
 var dps1=[];
 var dps2=[];
 var dps3=[];
@@ -101,16 +102,36 @@ class App extends Component {
 
   predict() {
 
-    let arr = this.createGraph(15, 4);
-    let half = Math.ceil(arr.length / 2);
-    let first = arr.splice(0, half);
+    // let arr = this.createGraph(15, 4);
+    // let half = Math.ceil(arr.length / 2);
+    // let first = arr.splice(0, half);
+
+    let arr = [];
+    let predict = [];
+    for (let i = 2000; i <= 10080; i += 10) {
+      arr.push({
+        'x' : new Date(real_predict['Points'][i]['x']),
+        'y' : real_predict['Points'][i]['y']
+      });
+    }
+
+    console.log(real_predict);
+    for (let i = 10081; i < 10181; i += 10) {
+      predict.push({
+        'x' : new Date(real_predict['Points'][i]['x']),
+        'y' : real_predict['Points'][i]['y'] / 10
+      });
+    }
+
+    console.log(predict);
 
     const options = {
+        zoomEnabled: true,
         title:{
-          text: "Predicted Electricity Demand"
+          text: "Predicted Water Demand"
         },
         axisY : {
-          title: "Electricity Usage",
+          title: "Water Usage",
           includeZero: false,
           minimum: 0
         },
@@ -123,15 +144,15 @@ class App extends Component {
         },
         data: [{
           type: "area",
-          name: "Electricty",
+          name: "Water",
           showInLegend: true,
-          dataPoints: first
+          dataPoints: arr
         },
         {
           type: "area",
-          name: "Predicted Electricity",
+          name: "Predicted Water",
           showInLegend: true,
-          dataPoints: arr
+          dataPoints: predict
         }
       ]
     };
@@ -146,17 +167,29 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    let arr = this.createGraph(15, 4);
-    let half = Math.ceil(arr.length / 2);
-    arr = arr.splice(0, half);
+    // let arr = this.createGraph(15, 4);
+    // let half = Math.ceil(arr.length / 2);
+    // arr = arr.splice(0, half);
+    // console.log(real_predict);
+    let arr = []
+    for (let i = 2000; i < 10081; i += 15) {
+      arr.push({
+        'x' : new Date(real_predict['Points'][i]['x']),
+        'y' : real_predict['Points'][i]['y']
+      });
+    }
+
+    console.log(arr);
+
     this.state = {
       sampleFreq : 15,
       options: {
+        zoomEnabled: true,
         title:{
-          text: "Predicted Electricity Demand"
+          text: "Predicted Water Demand"
         },
         axisY : {
-          title: "Electricity Usage",
+          title: "Water Usage",
           includeZero: false,
           minimum: 0
         },
@@ -169,7 +202,7 @@ class App extends Component {
         },
         data: [{
           type: "area",
-          name: "Electricity",
+          name: "Water",
           showInLegend: true,
           dataPoints: arr
         }]
@@ -466,7 +499,25 @@ class App extends Component {
             </Grid>
 
           </Grid>
-    
+
+          <Grid container
+            spacing={40}
+            alignItems="center"
+            justify="center">
+
+            <Grid item md={6}>
+                <div style = {{marginTop: "50px", marginBottom : "200px"}}>
+                  <Typography align="center" component="hq" variant="h3" color="inherit" gutterBottom>
+                    Results & Impact
+                  </Typography>
+                  <Typography align="center" variant="h5" color="" paragraph>
+                  Our findings indicate that certain utility services such as Wi-Fi and electricity are subject to daily spikes in usage. The former is likely due to a widespread use of campus Wi-Fi during school and business hours. Meanwhile, the latter's spikes of shorter duration in the evening hours can be explained by lights in and around the building that turn on near dusk but can be partially diminished during the late hours of the night. Contrarily, chilled water and steam both had rather irregular usage patterns and proved difficult to compute reliable predictions. 
+                  </Typography>
+                </div>
+
+            </Grid>
+          </Grid>
+
           </Parallax>
 
         </div>
