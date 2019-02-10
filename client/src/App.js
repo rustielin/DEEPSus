@@ -104,19 +104,105 @@ class App extends Component {
     }
   
   return (
-    <ParallaxProvider>
-      <Parallax>
-        <div className = "test">
+        <div>
           <CanvasJSChart style={{"height" : "50%", opacity: 0}} options = {options} 
             // onRef={ref => this.chart = ref}
           />
           {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
         </div>
-      </Parallax>
-    </ParallaxProvider>
-
-
   );
+  }
+
+  componentDidMount() {
+    //-----------------GET DATA--------------------
+
+    var promise_1 = getARC('Electricity', 'Demand');
+    var promise_2 = getARC('ChilledWater', 'Demand');
+    var promise_3 = getARC('WiFi', 'TotalCount');
+
+    var currentComponent = this;
+
+    setInterval(()=> {this.setState(this.state); console.log(dps);}, 5000);
+
+    Promise.all([promise_1, promise_2, promise_3]).then(function(values) {
+      electricity = values[0].data;
+      console.log(electricity);
+      water = values[1].data;
+      console.log(water);
+      wifi = values[2].data;
+      console.log(wifi);
+
+      //-----------------PROCEED--------------------
+
+      console.log("PLOTTTINGGG");
+      for (let i = 0; i < Object.keys(water['Points']).length; i++) {
+        dps.push({
+          x : new Date(electricity['Points'][i]['x']),
+          y: electricity['Points'][i]['y'] / electricity['Normalization']
+        });
+
+        dps2.push({
+          x : new Date(wifi['Points'][i]['x']),
+          y: wifi['Points'][i]['y'] / wifi['Normalization']
+        });
+
+        dps3.push({
+          x : new Date(water['Points'][i]['x']),
+          y: water['Points'][i]['y'] / water['Normalization']
+        });
+      }
+      
+      currentComponent.setState({
+        options: {
+            animationEnabled: true,	
+            title:{
+              text: "Electricity Usage Over Time"
+            },
+            theme: "light2",
+            axisY : {
+              title: "Usage Percentage (%)",
+              includeZero: false,
+              minimum: 0
+            },
+            toolTip: {
+              shared: true
+            },
+            data: [{
+              type: "area",
+              name: "Electricity",
+              showInLegend: true,
+              dataPoints: dps
+            },
+            {
+              type: "area",
+              name: "WiFi",
+              showInLegend: true,
+              dataPoints: dps2
+            },
+            {
+              type: "area",
+              name: "Steam",
+              showInLegend: true,
+              dataPoints: dps3
+            }
+          ]
+        }
+      });
+      
+    });
+  }
+
+  render() {
+
+    console.log("RENDERED");
+    return (
+      <div>
+        <CanvasJSChart options = {this.state.options} 
+          /* onRef={ref => this.chart = ref} */
+        />
+        {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
+      </div>
+      );
   }
 }
 
