@@ -51,26 +51,40 @@ class App extends Component {
 
     //-----------------GET DATA--------------------
 
-    console.log(getARC('ChilledWater', 'Demand'));
+    var promise_1 = getARC('Electricity', 'Demand');
+    var promise_2 = getARC('ChilledWater', 'Demand');
+    var promise_3 = getARC('WiFi', 'TotalCount');
+    
+    Promise.all([promise_1, promise_2, promise_3]).then(function(values) {
+      electricity = values[0].data;
+      console.log(electricity);
+      water = values[1].data;
+      console.log(water);
+      wifi = values[2].data;
+      console.log(wifi);
 
-    //-----------------PROCEED--------------------
+      //-----------------PROCEED--------------------
 
-    // for (let i = 0; i < Object.keys(electricity['Points']).length; i++) {
-    //   dps.push({
-    //     x : new Date(electricity['Points'][i]['x']),
-    //     y: electricity['Points'][i]['y'] / electricity['Normalization']
-    //   });
+      console.log("PLOTTTINGGG");
+      for (let i = 0; i < Object.keys(water['Points']).length; i++) {
+        dps.push({
+          x : new Date(electricity['Points'][i]['x']),
+          y: electricity['Points'][i]['y'] / electricity['Normalization']
+        });
+  
+        dps2.push({
+          x : new Date(wifi['Points'][i]['x']),
+          y: wifi['Points'][i]['y'] / wifi['Normalization']
+        });
+  
+        dps3.push({
+          x : new Date(water['Points'][i]['x']),
+          y: water['Points'][i]['y'] / water['Normalization']
+        });
+      }
 
-    //   dps2.push({
-    //     x : new Date(wifi['Points'][i]['x']),
-    //     y: wifi['Points'][i]['y'] / wifi['Normalization']
-    //   });
-
-    //   dps3.push({
-    //     x : new Date(water['Points'][i]['x']),
-    //     y: water['Points'][i]['y'] / water['Normalization']
-    //   });
-    // }
+    });
+    
   }
 
   render() {
