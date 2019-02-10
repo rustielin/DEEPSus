@@ -56,6 +56,6 @@ data['Units'] = unit
 
 print(data)
 
-with open(path_prefix + "data/ARC_WiFi_TotalCount.json", "w") as f:
+with open(path_prefix + "data/Activities and Recreation Center_WiFi_TotalCount.json", "w") as f:
     json.dump(data, f)
-    print("Saving: ARC WiFi TotalCount")
+    print("Saving: Activities and Recreation Center WiFi TotalCount")
