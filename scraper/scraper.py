@@ -2,6 +2,8 @@ from osisoft.pidevclub.piwebapi.pi_web_api_client import PIWebApiClient
 from osisoft.pidevclub.piwebapi.rest import ApiException
 from urllib3 import disable_warnings
 
+path_prefix = "~/hack-davis-osi-bucket/"
+
 disable_warnings()
 
 client = PIWebApiClient("https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi", useKerberos=False, verifySsl=False)
@@ -28,6 +30,7 @@ for b in buildings:
                 print("No Endpoint for: {0} {1} {2}".format(b, t, a))
 
 
-wifi_df = client.data.get_interpolated_values(wifi_query, start_time=start, interval=query_interval, selected_fields=fields)
-wifi_df.to_json("data/ARC_WiFi_TotalCount")
+wifi_df = client.data.get_interpolated_values(wifi_query, start_time="*-1m", interval="5s")
+#wifi_df.to_csv("data/ARC_WiFi_TotalCount")
+wifi_df.to_csv(path_prefix + "data/ARC_WiFi_TotalCount")
 print("Saving: ARC WiFi TotalCount")
