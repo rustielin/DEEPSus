@@ -45,6 +45,8 @@ var stream_helper = (bucket_path, res) => {
     })
     .on('end', function() {
         // The file is fully downloaded.
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.json(JSON.parse(fileContents));
         console.log("DOWNLOADED");
     });
@@ -52,11 +54,12 @@ var stream_helper = (bucket_path, res) => {
 
 // fetch object
 app.get('/api/getHello', (req,res) => {
+    res.set('Access-Control-Allow-Origin', '*');
     stream_helper('hello.txt', res);
 });
 
 app.get('/api/getARC', (req,res) => {
-    var ret = 'data/Activities and Recreation Center_' + req.query.type + '_' + req.query.attribute;
+    var ret = 'Activities and Recreation Center_' + req.query.type + '_' + req.query.attribute + ".json";
     stream_helper(ret, res);
 });
 
