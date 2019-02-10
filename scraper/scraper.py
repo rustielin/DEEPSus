@@ -28,9 +28,13 @@ for t in types:
             unit = df['UnitsAbbreviation'][0]
             df = df[['Value', 'Timestamp']]
             avg = df['Value'].mean()
-            data = df.to_dict()
+            data = {}
+            # pairs = df.to_dict()
+            data['Points'] = [{"x" : timestamp, "y" : value} for timestamp, value in zip(df['Value'], df['Timestamp'])]
             data['Average'] = avg
             data['Units'] = unit
+
+            print(data)
 
             with open("data/{0}_{1}_{2}.json".format(buildings[0], t, a), "w") as f:
                 json.dump(data, f)
@@ -44,7 +48,9 @@ wifi_df = client.data.get_interpolated_values(wifi_query, start_time=start, inte
 unit = wifi_df['UnitsAbbreviation'][0]
 wifi_df = df[['Value', 'Timestamp']]
 avg = wifi_df['Value'].mean()
-data = wifi_df.to_dict()
+data = {}
+pairs = wifi_df.to_dict()
+data['Points'] = pairs
 data['Average'] = avg
 data['Units'] = unit
 
