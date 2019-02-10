@@ -12,8 +12,8 @@ var wifi = null;
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-// const API_ENDPOINT = 'https://hackdavis.appspot.com/api/'
-const API_ENDPOINT = 'http://localhost:8080/api/'
+const API_ENDPOINT = 'https://hackdavis.appspot.com/api/'
+// const API_ENDPOINT = 'http://localhost:8080/api/'
 
 const axios = require('axios')
 
