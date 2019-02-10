@@ -19,6 +19,8 @@
   "homepage": "https://github.com/rustielin/HackDavis2019#readme",
   "dependencies": {
     "@google-cloud/storage": "^2.4.2",
+    "axios": "^0.18.0",
+    "cors": "^2.8.5",
     "express": "^4.16.4"
   }
 }

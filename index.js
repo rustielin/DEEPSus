@@ -6,6 +6,8 @@ const app = express();
 // Imports the Google Cloud client library
 const {Storage} = require('@google-cloud/storage');
 
+const cors = require('cors')
+
 // -------------------GCS----------------
  
 const projectId = 'HackDavis';
@@ -24,7 +26,19 @@ const attributes = ["MonthlyUsage", "Demand", "Cumulative Use"]
 // -------------------EXPRESS----------------
 
 // Serve the static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+// app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+}
+app.use(cors(corsOptions));
 
 // helper to stream data
 var stream_helper = (bucket_path, res) => {
@@ -32,7 +46,11 @@ var stream_helper = (bucket_path, res) => {
     var fileContents = new Buffer('');
     remoteFile.createReadStream()
     .on('error', function(err) {
-        res.json("" + err + "\n" + "Usage: (type) (attribute)\n" + types + "\n" + attributes);
+        // console.log(err);
+        // res.json("" + err + "\n" + "Usage: (type) (attribute)\n" + types + "\n" + attributes);
+        // res.json("ERRO S:LDDFJ");
+        res.json(JSON.parse(fileContents));
+
     })
     .on('response', function(response) {
         // Server connected and responded with the specified status and headers.
@@ -52,11 +70,15 @@ var stream_helper = (bucket_path, res) => {
 
 // fetch object
 app.get('/api/getHello', (req,res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     stream_helper('hello.txt', res);
 });
 
 app.get('/api/getARC', (req,res) => {
-    var ret = 'Activities and Recreation Center_' + req.query.type + '_' + req.query.attribute + '.json';
+    var ret = 'Activities and Recreation Center_' + req.query.type + '_' + req.query.attribute + ".json";
+    console.log("Trying to get: " + ret);
     stream_helper(ret, res);
 });
 
