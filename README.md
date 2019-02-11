@@ -45,3 +45,5 @@ In the `scraper/` directory, run the following commands to scrape OSIsoft data i
 cd scraper/;
 python3 scraper.py
 ```
+
+In the 'real_time_water/', 'scraper/', 'timeseries_gran_electric/', 'timeseries_gran_water/', we have our exploratory data analysis. 
